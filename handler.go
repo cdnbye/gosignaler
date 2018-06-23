@@ -16,10 +16,6 @@ type SignalMsg struct {
 	Data  interface{}          `json:"data"`
 }
 
-type RegisterMsg struct {
-	Peer_id string             `json:"peer_id"`
-}
-
 func (this *Client) handle(message []byte) {
 	//	logrus.Debugf("[Client.handle] %s", string(message))
 	action := struct {

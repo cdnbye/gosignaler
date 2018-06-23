@@ -7,8 +7,7 @@ PROCESS=gosignaler
 
 #### REMOTE HOST INFO
 USER=root
-#HOST=120.78.168.126
-HOST=211.159.220.166
+HOST=120.78.168.126
 REMOTE_PATH=/var/www/html/signaler
 #REMOTE_FILE=$PROCESS.`date +%s`
 

@@ -31,13 +31,6 @@ func (this *Client) handle(message []byte) {
 }
 
 func (this *Client) CreateHandler(action string, payload []byte) Handler {
-	//	logrus.Debugf("[Client.CreateHandler] action:%s, toPeerId: %s", action, toPeerId)
-
-	//this.hub.statsd(action)
-
-	//log.WithFields(log.Fields{
-	//	"animal": "walrus",
-	//}).Warn("A walrus appears")
 
 	switch action {
 	case "signal":

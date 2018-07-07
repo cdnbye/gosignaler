@@ -31,12 +31,6 @@ type Hub struct {
 	//count of client
 	ClientNum uint16
 
-	P2pConfig struct{
-		Live struct{
-			MaxLayers int
-		}
-	}
-
 }
 
 func newHub() *Hub {
@@ -44,7 +38,6 @@ func newHub() *Hub {
 		broadcast:  make(chan []byte),
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
-		//clients:    make(map[*Client]bool),
 	}
 }
 

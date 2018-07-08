@@ -7,10 +7,11 @@
 
 ### test
 ```
+import Hls from 'cdnbye';
 var hlsjsConfig = {
     p2pConfig: {
         wsSignalerAddr: 'ws://localhost:8081/ws',
-        // Other p2pConfig options if applicable
+        // Other p2pConfig options provided by hlsjs-p2p-engine
     }
 };
 // Hls constructor is overriden by included bundle

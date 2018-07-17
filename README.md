@@ -3,7 +3,7 @@
 ### build
 - install dependency
 
-- go build main.go
+- go build main.go hub.go handler.go client.go
 
 ### test
 ```

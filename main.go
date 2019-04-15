@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"net/http"
 	"log"
 )
@@ -34,6 +35,11 @@ func main() {
 		if id != "" {
 			serveWs(hub, w, r, id)
 		}
+	})
+	http.HandleFunc("/count", func(w http.ResponseWriter, r *http.Request) {
+		//fmt.Printf("URL: %s\n", r.URL.String())
+		w.Write([]byte(fmt.Sprintf("%d", hub.ClientNum)))
+
 	})
 	err := http.ListenAndServe(*addr, nil)
 	if err != nil {

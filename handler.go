@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 )
 
 
@@ -22,8 +21,8 @@ func (this *Client) handle(message []byte) {
 		Action     string `json:"action"`
 	}{}
 	if err := json.Unmarshal(message, &action); err != nil {
-		//logrus.Errorf("[Client.handle] json.Unmarshal %s", err.Error())
-		log.Printf("[Client.handle] json.Unmarshal %s", err.Error())
+
+		//log.Printf("[Client.handle] json.Unmarshal %s", err.Error())
 		return
 	}
 
@@ -51,7 +50,7 @@ type ExceptionHandler struct {
 }
 
 func (this *ExceptionHandler) Handle() {
-	log.Printf("[ExceptionHandler] err %s", this.message)
+	//log.Printf("[ExceptionHandler] err %s", this.message)
 }
 
 type SignalHandler struct {
@@ -72,7 +71,7 @@ func (this *SignalHandler) Handle()  {
 	if ok {
 		this.client.hub.sendJsonToClient(this.message.To_peer_id, response)
 	} else {
-		log.Println("Peer not found")
+		//log.Println("Peer not found")
 		this.client.hub.sendJsonToClient(this.client.PeerId, map[string]interface{}{
 			"action": "signal",
 			"from_peer_id": this.message.To_peer_id,            //对等端的Id

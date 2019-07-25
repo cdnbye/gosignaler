@@ -15,6 +15,13 @@ type SignalMsg struct {
 	Data  interface{}          `json:"data"`
 }
 
+type SignalResp struct {
+	Action string              `json:"action"`
+	FromPeerId string          `json:"from_peer_id"`
+	Data interface{}           `json:"data,omitempty"`
+}
+
+
 func (this *Client) handle(message []byte) {
 	//	logrus.Debugf("[Client.handle] %s", string(message))
 	action := struct {
@@ -59,25 +66,22 @@ type SignalHandler struct {
 }
 
 func (this *SignalHandler) Handle()  {
-	//log.Printf("SignalHandler Handle %v", this.message)
-
-	response := map[string]interface{}{
-		"action": "signal",
-		"from_peer_id": this.client.PeerId,            //对等端的Id
-		"data": this.message.Data,                    //需要传送的数据
-	}
-	//log.Printf("sendJsonToClient %v", this.message.To_peer_id)
 	_, ok := this.client.hub.clients.Load(this.message.To_peer_id)        //判断节点是否还在线
 	if ok {
-		this.client.hub.sendJsonToClient(this.message.To_peer_id, response)
+		resp := SignalResp{
+			Action: "signal",
+			FromPeerId: this.client.PeerId,
+			Data: this.message.Data,
+		}
+		this.client.hub.sendJsonToClient(this.message.To_peer_id, resp)
 	} else {
 		//log.Println("Peer not found")
-		this.client.hub.sendJsonToClient(this.client.PeerId, map[string]interface{}{
-			"action": "signal",
-			"from_peer_id": this.message.To_peer_id,            //对等端的Id
-		})
+		resp := SignalResp{
+			Action: "signal",
+			FromPeerId: this.message.To_peer_id,
+		}
+		this.client.hub.sendJsonToClient(this.client.PeerId, resp)
 	}
-
 }
 
 

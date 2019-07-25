@@ -1,3 +1,5 @@
 /AutoDeploy.sh
 /.idea
 /gosignaler
+/gosignaler_https_linux
+/cert

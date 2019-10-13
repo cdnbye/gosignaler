@@ -1,5 +1,6 @@
 /AutoDeploy.sh
 /.idea
+/.DS_Store
 /gosignaler
 /gosignaler_https_linux
 /cert

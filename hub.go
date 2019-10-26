@@ -5,9 +5,8 @@
 package main
 
 import (
-	"sync"
 	"encoding/json"
-	"log"
+	"sync"
 )
 
 
@@ -50,7 +49,7 @@ func (this *Hub) sendJsonToClient(peerId string, value interface{})  {
 	}
 	client, ok := this.clients.Load(peerId)
 	if !ok {
-		log.Printf("sendJsonToClient error")
+		//log.Printf("sendJsonToClient error")
 		return
 	}
 	if err := client.(*Client).sendMessage(b); err != nil {

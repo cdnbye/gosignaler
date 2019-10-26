@@ -7,13 +7,13 @@ go get github.com/gorilla/websocket
 
 #### compile
 ```bash
-go build main.go hub.go handler.go client.go GOOS=linux;GOARCH=amd64
+make
 ```
 
 #### deploy
 Upload binary file to server, create `cert` directory with `crt.pem` and `crt.key`, then start service:
 ```bash
-nohup ./gosignaler > signal.log 2>&1 &
+./admin.sh start
 ```
 
 ### test
@@ -38,13 +38,13 @@ go get github.com/gorilla/websocket
 
 #### 编译二进制文件
 ```bash
-go build main.go hub.go handler.go client.go GOOS=linux;GOARCH=amd64
+make
 ```
 
 #### 部署
 将编译生成的二进制文件上传至服务器，并在同级目录创建`cert`文件夹，将证书和秘钥文件分别改名为`crt.pem`和`crt.key`放入cert，之后启动服务：
 ```bash
-nohup ./gosignaler > signal.log 2>&1 &
+./admin.sh start
 ```
 
 ### 测试

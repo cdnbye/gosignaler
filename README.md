@@ -2,12 +2,14 @@
 
 #### install dependency
 ```bash
+git clone https://github.com/cdnbye/gosignaler.git
+
 go get github.com/gorilla/websocket
 ```
 
 #### compile
 ```bash
-make
+cd gosignaler && make
 ```
 
 #### deploy
@@ -33,12 +35,14 @@ var hls = new Hls(hlsjsConfig);
 ### go语言版的 CDNBye 信令服务器，可用于Web、安卓、iOS SDK等所有CDNBye产品
 #### 安装依赖
 ```bash
+git clone https://github.com/cdnbye/gosignaler.git
+
 go get github.com/gorilla/websocket
 ```
 
 #### 编译二进制文件
 ```bash
-make
+cd gosignaler && make
 ```
 
 #### 部署

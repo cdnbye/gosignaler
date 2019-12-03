@@ -25,8 +25,8 @@ WorkingDirectory=$BASE_DIR
 
 ExecStart=$BASE_DIR/$SERVER
 
-StandardOutput=null
-StandardError=null
+StandardOutput=$BASE_DIR/signal.log
+StandardError=$BASE_DIR/signal.log
 
 Restart=on-failure
 ExecStop=
@@ -37,6 +37,7 @@ WantedBy=multi-user.target" > ./$SERVICE
 
 function deploy()
 {
+    ulimit -n 1000000
     echo "Generate Service File"
 	generateServiceFile
 	sudo cp $SERVICE $PREFIX

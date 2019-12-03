@@ -11,8 +11,6 @@ import (
 	"github.com/gorilla/websocket"
 	"fmt"
 	"encoding/json"
-	//"github.com/sirupsen/logrus"
-
 	"log"
 )
 
@@ -54,6 +52,8 @@ type Client struct {
 	send            chan []byte
 
 	PeerId          string              //唯一标识
+
+	InvalidPeers    map[string]bool    // 已经无效的peerId
 }
 
 
@@ -77,11 +77,11 @@ func (c *Client) sendMessage(msg []byte) error {
 func (this *Client) jsonResponse(value interface{}) {
 	b, err := json.Marshal(value)
 	if err != nil {
-		//logrus.Errorf("[Client.jsonResponse] Marshal err: %s", err.Error())
+		log.Println(err)
 		return
 	}
 	if err := this.sendMessage(b); err != nil {
-		//logrus.Errorf("[Client.jsonResponse] sendMessage err: %s", err.Error())
+		log.Println(err)
 	}
 }
 
@@ -102,7 +102,7 @@ func (c *Client) readPump() {
 		_, message, err := c.conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				//log.Printf("error: %v", err)
+				//log.Println(err)
 			}
 			break
 		}
@@ -172,6 +172,7 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request, id string) {
 		conn: conn,
 		send: make(chan []byte, 256),
 		PeerId: id,
+		InvalidPeers: make(map[string]bool),
 	}
 
 	client.hub.register <- client

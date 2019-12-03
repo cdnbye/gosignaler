@@ -25,8 +25,8 @@ WorkingDirectory=$BASE_DIR
 
 ExecStart=$BASE_DIR/$SERVER
 
-StandardOutput=$BASE_DIR/signal.log
-StandardError=$BASE_DIR/signal.log
+StandardOutput=null
+StandardError=null
 
 Restart=on-failure
 ExecStop=

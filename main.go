@@ -11,6 +11,17 @@ import (
 var addr = flag.String("addr", ":80", "http service address")
 var addrs = flag.String("addrs", ":443", "https service address")
 
+func init()  {
+	file := "./" +"signal"+ ".log"
+	logFile, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0766)
+	if err != nil {
+		panic(err)
+	}
+	log.SetOutput(logFile) // 将文件设置为log输出的文件
+	log.SetFlags(log.LstdFlags | log.Lshortfile | log.LUTC)
+	return
+}
+
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL)
 	if r.URL.Path != "/" {
@@ -45,7 +56,7 @@ func main() {
 
 	if Exists("cert/crt.pem") && Exists("cert/crt.key") {
 		go func() {
-			fmt.Printf("Start to listening the incoming requests on https address: %s\n", *addrs)
+			log.Printf("Start to listening the incoming requests on https address: %s\n", *addrs)
 			err := http.ListenAndServeTLS(*addrs, "cert/crt.pem", "cert/crt.key", nil)
 			if err != nil {
 				log.Fatal("ListenAndServe: ", err)
@@ -53,7 +64,7 @@ func main() {
 		}()
 	}
 
-	fmt.Printf("Start to listening the incoming requests on http address: %s\n", *addr)
+	log.Printf("Start to listening the incoming requests on http address: %s\n", *addr)
 	err := http.ListenAndServe(*addr, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
@@ -68,7 +79,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer func() {                            // 必须要先声明defer，否则不能捕获到panic异常
 		if err := recover(); err != nil {
-			fmt.Println(err)                  // 这里的err其实就是panic传入的内容
+			log.Println(err)                  // 这里的err其实就是panic传入的内容
 		}
 	}()
 

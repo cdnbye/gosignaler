@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 )
 
 
@@ -28,8 +29,7 @@ func (this *Client) handle(message []byte) {
 		Action     string `json:"action"`
 	}{}
 	if err := json.Unmarshal(message, &action); err != nil {
-
-		//log.Printf("[Client.handle] json.Unmarshal %s", err.Error())
+		//log.Println(err)
 		return
 	}
 
@@ -42,8 +42,7 @@ func (this *Client) CreateHandler(action string, payload []byte) Handler {
 	case "signal":
 		msg := SignalMsg{}
 		if err := json.Unmarshal(payload, &msg); err != nil {
-			//logrus.Errorf("[PullHandler.Handle] json.Unmarshal %s", err.Error())
-
+			log.Println(err)
 			return  &ExceptionHandler{err.Error()}
 		}
 		return &SignalHandler{msg, this}
@@ -80,7 +79,11 @@ func (this *SignalHandler) Handle()  {
 			Action: "signal",
 			FromPeerId: this.message.To_peer_id,
 		}
-		this.client.hub.sendJsonToClient(this.client.PeerId, resp)
+		// 发送一次后，同一peerId下次不再发送，节省带宽
+		if !this.client.InvalidPeers[this.message.To_peer_id] {
+			this.client.InvalidPeers[this.message.To_peer_id] = true
+			this.client.hub.sendJsonToClient(this.client.PeerId, resp)
+		}
 	}
 }
 

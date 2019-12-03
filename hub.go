@@ -6,6 +6,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"sync"
 )
 
@@ -44,7 +45,7 @@ func newHub() *Hub {
 func (this *Hub) sendJsonToClient(peerId string, value interface{})  {
 	b, err := json.Marshal(value)
 	if err != nil {
-		//logrus.Errorf("[Client.jsonResponse] Marshal err: %s", err.Error())
+		log.Println(err)
 		return
 	}
 	client, ok := this.clients.Load(peerId)
@@ -53,7 +54,7 @@ func (this *Hub) sendJsonToClient(peerId string, value interface{})  {
 		return
 	}
 	if err := client.(*Client).sendMessage(b); err != nil {
-		//logrus.Errorf("[Client.jsonResponse] sendMessage err: %s", err.Error())
+		log.Println(err)
 	}
 	//if err := client.(*Client).conn.WriteJSON(value); err != nil {
 	//	//logrus.Errorf("[Client.jsonResponse] sendMessage err: %s", err.Error())

@@ -15,6 +15,8 @@ cd gosignaler && make
 #### deploy
 Upload binary file to server, create `cert` directory with `crt.pem` and `crt.key`, then start service:
 ```bash
+chmod +x admin.sh
+
 ./admin.sh start
 ```
 
@@ -48,6 +50,8 @@ cd gosignaler && make
 #### 部署
 将编译生成的二进制文件上传至服务器，并在同级目录创建`cert`文件夹，将证书和秘钥文件分别改名为`crt.pem`和`crt.key`放入cert，之后启动服务：
 ```bash
+chmod +x admin.sh
+
 ./admin.sh start
 ```
 
